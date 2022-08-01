@@ -1,0 +1,20 @@
+.row1 {
+    color: white;
+    background-color: dimgray;
+    width: 100%;
+    
+}
+.col {
+    
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        height: 150px;
+        margin-top: -1%;
+      
+}
+
+.list-unstyled {
+    margin-top: 2px;
+    display: inline-block;
+    margin-left: 14px;
+}
