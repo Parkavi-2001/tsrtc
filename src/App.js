@@ -1,23 +1,16 @@
 
-//import { Layout } from 'antd';
+import React from 'react';
 import './App.css';
-import Footer from './Component/Footer';
-import Navbar from './Component/Navbar';
-import Payment from './Component/Payment';
-
-
-
+import AppRoutes from './AppRoutes';
+import Main from './Component/Main';
 
 function App() {
   return (
-    <div className="page-container">
-      <div className='content-wrap'>
-      
-      <Navbar/>
-      <Payment/>
-      </div>
-      <Footer/>
+    <div>
+      {/* <Main/> */}
+      <AppRoutes />
     </div>
+    
   );
 }
 

@@ -1,31 +1,39 @@
-import { EnvironmentOutlined,PhoneOutlined, DollarOutlined, CheckCircleOutlined, MailOutlined} from '@ant-design/icons';
-import { Button, Card, Form, Input } from 'antd';
+import { PhoneOutlined, DollarOutlined, CheckCircleOutlined, MailOutlined} from '@ant-design/icons';
+import { Button,Form, Input } from 'antd';
 import React, { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import 'antd/dist/antd.css'; 
 import './Payment.css';
+import axios from 'axios';
+
+
 // import {bus} from './bus.jpeg';
 import {
-  AutoComplete,
-  Cascader,
-  Checkbox,
-  Col,
-  InputNumber,
-  Row,
   Select,
 } from 'antd';
+
 const { Option } = Select;
 
 
 const Payment = () => {
+
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
-
+ 
+  const navigate = useNavigate();
   useEffect(() => {
     forceUpdate({});
   }, []);
+  
+  const handleSubmit = event => {
+    event.preventDefault();
 
+    // 👇️ redirect to /contacts
+    navigate('/page');
+  };
   const onFinish = (values) => {
-    console.log('Finish:', values);
+    //console.log('Finish:', values);
+    navigate('/Page',{state:{values}});
   };
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -41,6 +49,29 @@ const Payment = () => {
     </Form.Item>
   );
 
+  const InitPayment = async () => {
+
+    
+    const result = await axios.post("http://localhost:9091/paymentinterface/v1/initatePayment",{
+
+      "amount":"1.00",
+      
+      "orderId":"Test-232345678093",
+      
+      "merchantReferenceId":"Test0134567891",
+      
+      "customerPhoneNo":"9900308631",
+      
+      "customerEmail":"dd1@dd.com"
+      
+      })
+    .then((response)=>console.log(response));
+
+    console.log(result)};
+
+    
+  
+  
   return (
     <div style={{backgroundImage: "url('https://static.abhibus.com/ap_tg/ts/oprs-web/_assets/images/new/bg-home.jpg')",
     height:"500px",
@@ -51,8 +82,8 @@ const Payment = () => {
       <div className="search">
       
       <h2 style={{marginLeft:"20%",color:'#19bc9c'}}>Search for bus tickets!</h2><br/>
-    <Form form={form} className="body" name="horizontal_login"  onFinish={onFinish}>
-      
+    <Form form={form} className="body" name="horizontal_login"  onFinish={onFinish} onSubmit={handleSubmit} >
+    
       <Form.Item 
         name="Amount"
         label="Amount"
@@ -69,7 +100,7 @@ const Payment = () => {
       </Form.Item>
       
       <Form.Item className='form'
-        name="Order ID"
+        name="OrderID"
         label="Order ID"
         style={{marginLeft:"20%",width:"30%"}}
         rules={[
@@ -131,12 +162,9 @@ const Payment = () => {
             type="primary"
             htmlType="submit"
             style={{marginLeft:"35%",width:"30%"}}
-            disabled={
-              !form.isFieldsTouched(true) ||
-              !!form.getFieldsError().filter(({ errors }) => errors.length).length
-            }
+            
           >
-            Search for availability
+            Submit
           </Button>
         )}
       </Form.Item>
